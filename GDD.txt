@@ -1,0 +1,5 @@
+tank game that moves with the sticks i know it should
+i want multiplayer local maybe network? hopefully 4 player
+i want to make it smash bro stlye by the end of it the more damage you take the farther you fly till you go out of bounds
+you drive around a tank and shoot other tanks till you knock them out of bounds the higher the damage they have taken the farther they will fly when hit with a projectile or maybe mine. should make power ups kart style jump button  so you can get right side up if you get turned over or dodge if getting shot at
+need sound fx for explotions hits maybe drops movement need music thinking clasical or maybe frank sinatera style
