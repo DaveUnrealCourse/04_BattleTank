@@ -1,6 +1,7 @@
 // Copyright David Thornton 2016
 
 #include "BattleTank.h"
+#include "TankBarrel.h"
 #include "TankAimingComponent.h"
 
 
@@ -9,23 +10,17 @@ UTankAimingComponent::UTankAimingComponent()
 {
 	// Set this component to be initialized when the game starts, and to be ticked every frame.  You can turn these features
 	// off to improve performance if you don't need them.
+	bWantsBeginPlay = true;
 	PrimaryComponentTick.bCanEverTick = true;
 
 	// ...
 }
-
-
-
-void UTankAimingComponent::SetBarrelReference(UStaticMeshComponent* BarrelToSet)
+void UTankAimingComponent::SetBarrelReference(UTankBarrel* BarrelToSet)
 {
 	Barrel = BarrelToSet;
-
 }
-
 void UTankAimingComponent::AimAt(FVector HitLocation, float LaunchSpeed)
 {
-//	auto OurTankName = GetOwner()->GetName();
-//	auto BarrelLocation = Barrel->GetComponentLocation().ToString();
 	if (!Barrel) { return;}
 	FVector OutLaunchVelocity;
 	FVector StartLocation = Barrel->GetSocketLocation(FName("Projectile"));
@@ -44,7 +39,6 @@ void UTankAimingComponent::AimAt(FVector HitLocation, float LaunchSpeed)
 		
 		MoveBarrelTowards(AimDirection);
 	};
-
 }
 void UTankAimingComponent::MoveBarrelTowards(FVector AimDirection)
 {
@@ -52,7 +46,6 @@ void UTankAimingComponent::MoveBarrelTowards(FVector AimDirection)
 	auto BarrelRotator = Barrel->GetForwardVector().Rotation();
 	auto AimAsRotator = AimDirection.Rotation();
 	auto DeltaRotator = AimAsRotator - BarrelRotator;
-	UE_LOG(LogTemp, Warning, TEXT("Aim as Rotator %s"), *DeltaRotator.ToString());
-	// the right amount this frame 
-	//do to same for rotation of the turret
+	
+	Barrel->Elevate(5); //TODO Remove magic Number
 }

@@ -15,7 +15,7 @@ void ATankAIController::BeginPlay()
 	}
 	else
 	{
-		UE_LOG(LogTemp, Warning, TEXT("AI Controller %s Found Player Pawn %s"), *(ControlledTank->GetName()), *(PlayerTank->GetName()));
+		//UE_LOG(LogTemp, Warning, TEXT("AI Controller %s Found Player Pawn %s"), *(ControlledTank->GetName()), *(PlayerTank->GetName()));
 	}
 }
 
