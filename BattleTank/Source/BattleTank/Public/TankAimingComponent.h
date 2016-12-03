@@ -17,7 +17,7 @@ public:
 	// Sets default values for this component's properties
 	void SetBarrelReference(UTankBarrel* BarrelToSet);
 
-	
+	//void UTankAimingComponent();
 
 	void AimAt(FVector HitLocation, float LaunchSpeed);
 

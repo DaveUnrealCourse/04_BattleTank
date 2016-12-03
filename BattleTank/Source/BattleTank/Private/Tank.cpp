@@ -36,7 +36,7 @@ void ATank::Tick( float DeltaTime )
 void ATank::SetupPlayerInputComponent(class UInputComponent* InputComponent)
 {
 	Super::SetupPlayerInputComponent(InputComponent);
-	UE_LOG(LogTemp, Warning, TEXT("have input"));
+	//UE_LOG(LogTemp, Warning, TEXT("have input"));
 }
 
 void ATank::AimAt(FVector HitLocation)

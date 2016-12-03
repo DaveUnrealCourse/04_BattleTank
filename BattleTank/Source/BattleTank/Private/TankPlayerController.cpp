@@ -37,7 +37,6 @@ void ATankPlayerController::AimTowardsCrosshair()
 	if (GetSightRayHitLocation(HitLocation))// has side efect will ray trace
 	{
 		GetControlledTank()->AimAt(HitLocation);
-		
 	}
 }
 
