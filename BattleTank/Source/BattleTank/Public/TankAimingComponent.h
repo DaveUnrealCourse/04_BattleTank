@@ -1,9 +1,7 @@
 // Copyright David Thornton 2016
 
 #pragma once
-
 #include "Components/ActorComponent.h"
-#include "TankBarrel.h"
 #include "TankAimingComponent.generated.h"
 
 class UTankBarrel;// forward declaration

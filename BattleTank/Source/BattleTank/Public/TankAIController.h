@@ -1,14 +1,11 @@
 // Copyright David Thornton 2016
 
 #pragma once
-
 #include "AIController.h"
-#include "Tank.h"
 #include "TankAIController.generated.h"
 
-/**
- * 
- */
+class ATank;// forward declaration
+
 UCLASS()
 class BATTLETANK_API ATankAIController : public AAIController
 {
