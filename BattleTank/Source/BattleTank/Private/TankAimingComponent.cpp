@@ -12,16 +12,18 @@ UTankAimingComponent::UTankAimingComponent()
 	// off to improve performance if you don't need them.
 	bWantsBeginPlay = true;
 	PrimaryComponentTick.bCanEverTick = true;
-
+	UE_LOG(LogTemp, Warning, TEXT("TankAimingComponet is a go"));
 	// ...
 }
 void UTankAimingComponent::SetBarrelReference(UTankBarrel* BarrelToSet)
 {
 	Barrel = BarrelToSet;
+	UE_LOG(LogTemp, Warning, TEXT("Barrel set"));
 }
 void UTankAimingComponent::AimAt(FVector HitLocation, float LaunchSpeed)
 {
 	if (!Barrel) { return;}
+	UE_LOG(LogTemp, Warning, TEXT("No Barrel"));
 	FVector OutLaunchVelocity;
 	FVector StartLocation = Barrel->GetSocketLocation(FName("Projectile"));
 	bool bHaveAimSolution = UGameplayStatics::SuggestProjectileVelocity(
@@ -36,6 +38,7 @@ void UTankAimingComponent::AimAt(FVector HitLocation, float LaunchSpeed)
 	{
 		auto AimDirection = OutLaunchVelocity.GetSafeNormal();
 		//auto TankName = GetOwner()->GetName();
+		UE_LOG(LogTemp, Warning, TEXT("have aiming solution"));
 		
 		MoveBarrelTowards(AimDirection);
 	};
@@ -46,6 +49,6 @@ void UTankAimingComponent::MoveBarrelTowards(FVector AimDirection)
 	auto BarrelRotator = Barrel->GetForwardVector().Rotation();
 	auto AimAsRotator = AimDirection.Rotation();
 	auto DeltaRotator = AimAsRotator - BarrelRotator;
-	
+	UE_LOG(LogTemp, Warning, TEXT("AimAsRotator: %s"), *DeltaRotator.ToString());
 	Barrel->Elevate(5); //TODO Remove magic Number
 }
