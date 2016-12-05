@@ -19,11 +19,8 @@ private:
 	virtual void BeginPlay() override;
 
 	virtual void Tick(float DeltaSeconds) override;
-	//start the tank moving the barrel so that a shot would hit wherte the crosshair intersects the world
+	//start the tank moving the barrel so that a shot would hit where the crosshair intersects the world
 	void AimTowardsCrosshair();
-	//FVector2D ScreenLocation();
-
-
 	//Return a OUT Parmeter ture if hit landscape
 	bool GetSightRayHitLocation(FVector& HitLocation) const;
 	UPROPERTY(EditAnywhere)
@@ -31,7 +28,7 @@ private:
 	UPROPERTY(EditAnywhere)
 	float CrossHairYLocation = 0.3333;
 	UPROPERTY(EditAnywhere)
-	float LineTraceRange = 1000000;
+	float LineTraceRange = 6000000;
 
 	bool GetLookDirection(FVector2D ScreenLocation, FVector& LookDirection) const;
 	bool GetLookVectorHitLocation(FVector LookDirection, FVector& HitLocation) const;

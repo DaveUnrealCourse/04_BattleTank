@@ -17,21 +17,15 @@ public:
 	// Sets default values for this component's properties
 	void SetBarrelReference(UTankBarrel* BarrelToSet);
 	void SetTurretReference(UTurret* TurretToSet);
-
-	//void UTankAimingComponent();
-
 	void AimAt(FVector HitLocation, float LaunchSpeed);
-
 		// TODO add set Turret referance
 
 private:
 	UTankBarrel* Barrel = nullptr;
 	UTurret* Turret = nullptr;
 	void MoveBarrelTowards(FVector AimDirection);
-
 	//increase the speed at witch you can move barrel and turret( use decimal to slow)
-	UPROPERTY(EditAnywhere)
+	UPROPERTY(EditAnywhere, Category = Setup)
 	float AimSpeedMultiplier = 1;
-
 	UTankAimingComponent();
 };
