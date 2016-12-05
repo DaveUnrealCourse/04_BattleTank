@@ -2,6 +2,7 @@
 
 #include "BattleTank.h"
 #include "TankBarrel.h"
+#include "Turret.h"
 #include "TankAimingComponent.h"
 
 
@@ -17,9 +18,14 @@ void UTankAimingComponent::SetBarrelReference(UTankBarrel* BarrelToSet)
 {
 	Barrel = BarrelToSet;
 }
+void UTankAimingComponent::SetTurretReference(UTurret* TurretToSet)
+{
+	Turret = TurretToSet;
+}
 void UTankAimingComponent::AimAt(FVector HitLocation, float LaunchSpeed)
 {
 	if (!Barrel) { UE_LOG(LogTemp, Warning, TEXT("IHaveNoBarrel")); return;}
+	if (!Turret) { UE_LOG(LogTemp, Warning, TEXT("IHaveNoTurret")); return; }
 	FVector OutLaunchVelocity;
 	FVector StartLocation = Barrel->GetSocketLocation(FName("Projectile"));
 	bool bHaveAimSolution = UGameplayStatics::SuggestProjectileVelocity(
@@ -37,20 +43,21 @@ void UTankAimingComponent::AimAt(FVector HitLocation, float LaunchSpeed)
 	{
 		auto AimDirection = OutLaunchVelocity.GetSafeNormal();	
 		MoveBarrelTowards(AimDirection);
-		auto Time = GetWorld()->GetTimeSeconds();
-		UE_LOG(LogTemp, Warning, TEXT("%f : Aim Soulation is found"), Time);
 	}
 	else
 	{
 		auto Time = GetWorld()->GetTimeSeconds();
-		UE_LOG(LogTemp, Warning, TEXT("%f : There is No Aiming Soulation"), Time);
+		UE_LOG(LogTemp, Warning, TEXT("%f : IHaveNoAimDirection"),Time)
 	}
 }
 void UTankAimingComponent::MoveBarrelTowards(FVector AimDirection)
 {
 	// get the barrel direction from the suggested project velocity and rase it to mach 
 	auto BarrelRotator = Barrel->GetForwardVector().Rotation();
+	auto TurretRotator = Turret->GetForwardVector().Rotation();
 	auto AimAsRotator = AimDirection.Rotation();
-	auto DeltaRotator = AimAsRotator - BarrelRotator;
-	Barrel->Elevate(5); //TODO Remove magic Number
+	auto DeltaRotatorBarrel = AimAsRotator - BarrelRotator;
+	auto DeltaRotatorTurret = AimAsRotator - TurretRotator;
+	Barrel->Elevate(DeltaRotatorBarrel.Pitch * AimSpeedMultiplier); //TODO Remove magic Number
+	Turret->Azimuth(DeltaRotatorTurret.Yaw * AimSpeedMultiplier);
 }

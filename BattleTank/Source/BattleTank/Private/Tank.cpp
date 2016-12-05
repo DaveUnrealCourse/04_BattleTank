@@ -16,7 +16,13 @@ ATank::ATank()
 }
 void ATank::SetBarrelReference(UTankBarrel* BarrelToSet)
 {
+	if (!BarrelToSet) {UE_LOG(LogTemp, Warning, TEXT("No Barrel Set"));return; }
 	TankAimingComponent->SetBarrelReference(BarrelToSet);
+}
+void ATank::SetTurretReference(UTurret* TurretToSet)
+{
+	if (!TurretToSet) {UE_LOG(LogTemp, Warning, TEXT("No Turret Set")); return; }
+	TankAimingComponent->SetTurretReference(TurretToSet);
 }
 // Called when the game starts or when spawned
 void ATank::BeginPlay()
