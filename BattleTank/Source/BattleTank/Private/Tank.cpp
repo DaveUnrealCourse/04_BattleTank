@@ -41,12 +41,18 @@ void ATank::AimAt(FVector HitLocation)
 }
 void ATank::Fire()
 {
-	if (!Barrel) { UE_LOG(LogTemp, Warning, TEXT("No Barrel to Fire From")); return; }
+	bool IsReloaded = (FPlatformTime::Seconds() - LastFireTime) > ReloadTimeInSeconds;
+	if (Barrel && IsReloaded) 
+	{
 	//spawn a PROJECTILE
 	auto Projectile = GetWorld()->SpawnActor<AProjectile>(
-		ProjectileBluePrint, 
+		ProjectileBluePrint,
 		Barrel->GetSocketLocation(FName("Projectile")),
 		Barrel->GetSocketRotation(FName("Projectile"))
 		);
 	Projectile->LaunchProjectile(LaunchSpeed);
+	LastFireTime = FPlatformTime::Seconds();
+}
+
+
 }
