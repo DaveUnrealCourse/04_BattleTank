@@ -1,6 +1,8 @@
 // Copyright David Thornton 2016
 
 #include "BattleTank.h"
+#include "TankBarrel.h"
+#include "Projectile.h"
 #include "Tank.h"
 #include "TankAimingComponent.h"
 
@@ -16,15 +18,12 @@ void ATank::SetBarrelReference(UTankBarrel* BarrelToSet)
 {
 	if (!BarrelToSet) {UE_LOG(LogTemp, Warning, TEXT("No Barrel Set"));return; }
 	TankAimingComponent->SetBarrelReference(BarrelToSet);
+	Barrel = BarrelToSet;
 }
 void ATank::SetTurretReference(UTurret* TurretToSet)
 {
 	if (!TurretToSet) {UE_LOG(LogTemp, Warning, TEXT("No Turret Set")); return; }
 	TankAimingComponent->SetTurretReference(TurretToSet);
-}
-void ATank::Fire()
-{
-	UE_LOG(LogTemp, Warning, TEXT("Fire_Button Pressed!!!"));
 }
 // Called when the game starts or when spawned
 void ATank::BeginPlay()
@@ -39,4 +38,15 @@ void ATank::SetupPlayerInputComponent(class UInputComponent* InputComponent)
 void ATank::AimAt(FVector HitLocation)
 {
 	TankAimingComponent->AimAt(HitLocation, LaunchSpeed);
+}
+void ATank::Fire()
+{
+	if (!Barrel) { UE_LOG(LogTemp, Warning, TEXT("No Barrel to Fire From")); return; }
+	//spawn a PROJECTILE
+	auto Projectile = GetWorld()->SpawnActor<AProjectile>(
+		ProjectileBluePrint, 
+		Barrel->GetSocketLocation(FName("Projectile")),
+		Barrel->GetSocketRotation(FName("Projectile"))
+		);
+	Projectile->LaunchProjectile(LaunchSpeed);
 }
