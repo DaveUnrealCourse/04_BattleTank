@@ -34,15 +34,12 @@ private:
 	virtual void BeginPlay() override;
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* InputComponent) override;
-
+	UPROPERTY(EditDefaultsOnly, Category = Setup)
+		TSubclassOf<AProjectile> ProjectileBluePrint;
 	UPROPERTY(EditAnywhere, Category = Firing)
 		float LaunchSpeed = 400000; //TODO find out if this number is even close
-
-	UPROPERTY(EditAnywhere, Category = Setup)
-		TSubclassOf<AProjectile> ProjectileBluePrint;
-
-	UTankBarrel* Barrel = nullptr;
-
+	UPROPERTY(EditAnywhere, Category = Firing)
 	float ReloadTimeInSeconds = 3;
 	double LastFireTime = 0;
+	UTankBarrel* Barrel = nullptr;
 };
