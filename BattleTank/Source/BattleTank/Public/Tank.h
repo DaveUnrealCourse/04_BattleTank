@@ -37,7 +37,7 @@ private:
 	UPROPERTY(EditDefaultsOnly, Category = Setup)
 		TSubclassOf<AProjectile> ProjectileBluePrint;
 	UPROPERTY(EditAnywhere, Category = Firing)
-		float LaunchSpeed = 400000; //TODO find out if this number is even close
+		float LaunchSpeed = 600000; //TODO find out if this number is even close
 	UPROPERTY(EditAnywhere, Category = Firing)
 	float ReloadTimeInSeconds = 3;
 	double LastFireTime = 0;
