@@ -7,6 +7,7 @@
 class UTankBarrel;// forward declaration
 class UTurret;
 class UTankAimingComponent;
+class UTankMovementComponent;
 class AProjectile;
 
 UCLASS()
@@ -23,10 +24,10 @@ public:
 	void SetTurretReference(UTurret* TurretToSet);
 	UFUNCTION(BlueprintCallable, Category = Firing)
 	void Fire();
-
 protected:
 	UTankAimingComponent* TankAimingComponent = nullptr;
-
+	UPROPERTY(BlueprintReadOnly)
+	UTankMovementComponent* TankMovementComponent =nullptr;
 private:
 	// Sets default values for this pawn's properties
 	ATank();
@@ -39,7 +40,7 @@ private:
 	UPROPERTY(EditAnywhere, Category = Firing)
 		float LaunchSpeed = 600000; //TODO find out if this number is even close
 	UPROPERTY(EditAnywhere, Category = Firing)
-	float ReloadTimeInSeconds = 3;
+		float ReloadTimeInSeconds = 3;
 	double LastFireTime = 0;
 	UTankBarrel* Barrel = nullptr;
 };

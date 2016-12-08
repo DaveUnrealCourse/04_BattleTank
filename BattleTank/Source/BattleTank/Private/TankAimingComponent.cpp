@@ -21,8 +21,8 @@ void UTankAimingComponent::SetTurretReference(UTurret* TurretToSet)
 }
 void UTankAimingComponent::AimAt(FVector HitLocation, float LaunchSpeed)
 {
-	if (!Barrel) { UE_LOG(LogTemp, Warning, TEXT("IHaveNoBarrel")); return;}
-	if (!Turret) { UE_LOG(LogTemp, Warning, TEXT("IHaveNoTurret")); return; }
+	if (!Barrel) { UE_LOG(LogTemp, Warning, TEXT("I Have No Barrel")); return;}
+	if (!Turret) { UE_LOG(LogTemp, Warning, TEXT("I Have No Turret")); return;}
 	FVector OutLaunchVelocity;
 	FVector StartLocation = Barrel->GetSocketLocation(FName("Projectile"));
 	bool bHaveAimSolution = UGameplayStatics::SuggestProjectileVelocity(
