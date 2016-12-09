@@ -42,8 +42,9 @@ void UTankAimingComponent::AimAt(FVector HitLocation, float LaunchSpeed)
 	}
 	else
 	{
+		auto Name = GetOwner()->GetName();
 		auto Time = GetWorld()->GetTimeSeconds();
-		UE_LOG(LogTemp, Warning, TEXT("%f : IHaveNoAimDirection"),Time)
+		//UE_LOG(LogTemp, Warning, TEXT("%f %s : I Have No Aim Direction"), Time, Name);
 	}
 }
 void UTankAimingComponent::MoveBarrelTowards(FVector AimDirection)
