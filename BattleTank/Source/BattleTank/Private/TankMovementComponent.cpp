@@ -19,10 +19,18 @@ if (!LeftTrack || !RightTrack) { UE_LOG(LogTemp, Warning, TEXT("Left Or Right Tr
 }
 void UTankMovementComponent::IntendTurnRight(float Throw)
 {
-	UE_LOG(LogTemp, Warning, TEXT("X-axis %f"), Throw);
 	LeftTrack->SetThrottle(Throw);
 	RightTrack->SetThrottle(-Throw);
 	//TODO clamp on throttle so pplayer cant use multi inputs to go faster
+}
+
+void UTankMovementComponent::RequestDirectMove(const FVector & MoveVelocity, bool bForceMaxSpeed)
+{
+	// no need for super we are replacing the fuction
+	auto TankName = GetOwner()->GetName();
+	auto MoveVelocityString = MoveVelocity.ToString();
+	UE_LOG(LogTemp, Warning, TEXT("%s vectoring to %s"), *TankName, *MoveVelocityString);
+
 }
 
 
