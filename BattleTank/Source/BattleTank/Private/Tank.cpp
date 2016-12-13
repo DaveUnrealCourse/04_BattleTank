@@ -15,9 +15,14 @@ ATank::ATank()
 	//No need To Protect Points as Added At Const
 }
 
+void ATank::BeginPlay()
+{
+	Super::BeginPlay();// needed for the BP to run its begin play 
+}
+
 void ATank::AimAt(FVector HitLocation)
 {
-	if (!TankAimingComponent){return;}
+	if (!TankAimingComponent) {UE_LOG(LogTemp, Warning, TEXT("No Tank Aiming Component in ATank::AimAt"));return; }
 	TankAimingComponent->AimAt(HitLocation, LaunchSpeed);
 }
 

@@ -19,8 +19,8 @@ void UTankAimingComponent::Initialise(UTankBarrel* BarrelToSet, UTurret* TurretT
 }
 void UTankAimingComponent::AimAt(FVector HitLocation, float LaunchSpeed)
 {
-	if (!Barrel) { UE_LOG(LogTemp, Warning, TEXT("I Have No Barrel in AimAt")); return;}
-	if (!Turret) { UE_LOG(LogTemp, Warning, TEXT("I Have No Turret in AimAt")); return;}
+	if (!Barrel) { UE_LOG(LogTemp, Warning, TEXT("I Have No Barrel in UTankAimingComponent::AimAt")); return;}
+	if (!Turret) { UE_LOG(LogTemp, Warning, TEXT("I Have No Turret in UTankAimingComponent::AimAt")); return;}
 	FVector OutLaunchVelocity;
 	FVector StartLocation = Barrel->GetSocketLocation(FName("Projectile"));
 	bool bHaveAimSolution = UGameplayStatics::SuggestProjectileVelocity(
@@ -47,7 +47,7 @@ void UTankAimingComponent::AimAt(FVector HitLocation, float LaunchSpeed)
 }
 void UTankAimingComponent::MoveBarrelTowards(FVector AimDirection)
 {
-	if (!Barrel || !Turret) { return; }
+	if (!Barrel || !Turret) { UE_LOG(LogTemp, Warning, TEXT("I Have No Barrel and/or Turret in UTankAimingComponent::MoveBarrelTowards"))return; }
 	// get the barrel direction from the suggested project velocity and rase it to mach 
 	auto BarrelRotator = Barrel->GetForwardVector().Rotation();
 	auto TurretRotator = Turret->GetForwardVector().Rotation();

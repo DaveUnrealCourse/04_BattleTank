@@ -17,11 +17,12 @@ class BATTLETANK_API ATank : public APawn
 
 public:
 	void AimAt(FVector HitLocation);
+	void ATank::BeginPlay();
 	UFUNCTION(BlueprintCallable, Category = "Setup")
 	void Fire();
 protected:
 	UPROPERTY(BlueprintReadOnly)
-	UTankAimingComponent* TankAimingComponent = nullptr;
+		UTankAimingComponent* TankAimingComponent; //= nullptr;
 	UPROPERTY(BlueprintReadOnly)
 	UTankMovementComponent* TankMovementComponent =nullptr;
 private:

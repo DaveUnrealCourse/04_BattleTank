@@ -21,6 +21,7 @@ class BATTLETANK_API UTankAimingComponent : public UActorComponent
 	GENERATED_BODY()
 
 public:	
+
 	// Sets default values for this component's properties
 	UFUNCTION(BlueprintCallable, Category = "Setup")
 	void Initialise(UTankBarrel* BarrelToSet, UTurret* TurretToSet);
@@ -30,7 +31,7 @@ public:
 		// TODO add set Turret referance
 protected:
 	UPROPERTY(BlueprintReadOnly, Category = "State")
-	EFiringState FiringState = EFiringState::Aiming;
+	EFiringState FiringState = EFiringState::Locked;
 private:
 	UTankAimingComponent();
 	UTankBarrel* Barrel = nullptr;
@@ -38,7 +39,7 @@ private:
 	void MoveBarrelTowards(FVector AimDirection);
 
 	//increase the speed at witch you can move barrel and turret( use decimal to slow)
-	UPROPERTY(EditAnywhere, Category = Setup)
+	UPROPERTY(EditAnywhere, Category = "Setup")
 	float AimSpeedMultiplier = 1;
 
 };
