@@ -5,7 +5,6 @@
 #include "Projectile.h"
 #include "Tank.h"
 #include "TankAimingComponent.h"
-#include "TankMovementComponent.h"
 
 // Sets default values
 ATank::ATank()
@@ -22,13 +21,13 @@ void ATank::BeginPlay()
 
 void ATank::AimAt(FVector HitLocation)
 {
-	if (!ensure(TankAimingComponent)) {return; }
+	if (ensure(!TankAimingComponent)) {return; }
 	TankAimingComponent->AimAt(HitLocation, LaunchSpeed);
 }
 
 void ATank::Fire()
 {
-	if (ensure(Barrel)) { return; }
+	if (ensure(!Barrel)) { return; }
 	bool IsReloaded = (FPlatformTime::Seconds() - LastFireTime) > ReloadTimeInSeconds;
 	if (IsReloaded)
 	{

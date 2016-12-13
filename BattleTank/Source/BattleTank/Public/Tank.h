@@ -5,9 +5,7 @@
 #include "Tank.generated.h"// keep on the bottom
 
 class UTankBarrel;// forward declaration
-class UTurret;
 class UTankAimingComponent;
-class UTankMovementComponent;
 class AProjectile;
 
 UCLASS()
@@ -22,9 +20,7 @@ public:
 	void Fire();
 protected:
 	UPROPERTY(BlueprintReadOnly)
-		UTankAimingComponent* TankAimingComponent; //= nullptr;
-	UPROPERTY(BlueprintReadOnly)
-	UTankMovementComponent* TankMovementComponent =nullptr;
+		UTankAimingComponent* TankAimingComponent = nullptr;
 private:
 	// Sets default values for this pawn's properties
 	ATank();
