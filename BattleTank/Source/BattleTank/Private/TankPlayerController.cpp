@@ -9,7 +9,7 @@ void ATankPlayerController::BeginPlay()
 {
 	Super::BeginPlay();
 	auto AimingComponent = GetControlledTank()->FindComponentByClass<UTankAimingComponent>();
-	if (AimingComponent)
+	if (ensure(AimingComponent))
 	{
 		FoundAimingComponent(AimingComponent);
 	}
@@ -21,7 +21,7 @@ void ATankPlayerController::BeginPlay()
 
 
 	auto ControlledTank = GetControlledTank();
-	if (!ControlledTank) { UE_LOG(LogTemp, Warning, TEXT("PlayerController Has No Tank!")); return; }
+//	if (!ensure(!ControlledTank)) { UE_LOG(LogTemp, Warning, TEXT("PlayerController Has No Tank!")); return; } causing unreal  to crash
 }
 void ATankPlayerController::Tick(float DeltaTime)
 {
@@ -34,7 +34,7 @@ ATank* ATankPlayerController::GetControlledTank() const
 }
 void ATankPlayerController::AimTowardsCrosshair()
 {
-	if (!GetControlledTank()) { UE_LOG(LogTemp, Warning, TEXT("No Tank in Control")); return; }
+	if (ensure(GetControlledTank())) {  return; }
 
 	FVector HitLocation;//OUT Parameter
 	if (GetSightRayHitLocation(HitLocation))// has side efect will ray trace

@@ -11,13 +11,14 @@ void UTankMovementComponent::Initialise(UTankTrack* LeftTrackToSet, UTankTrack* 
 }
 void UTankMovementComponent::IntendMoveForward(float Throw)
 {
-if (!LeftTrack || !RightTrack) { UE_LOG(LogTemp, Warning, TEXT("Left Or Right TrackToSet Id Fuct")); return; }
+	if (!ensure(LeftTrack && RightTrack)) { return; }
 	LeftTrack->SetThrottle(Throw);
 	RightTrack->SetThrottle(Throw);
 	//TODO clamp on throttle so pplayer cant use multi inputs to go faster
 }
 void UTankMovementComponent::IntendTurnRight(float Throw)
 {
+	if (!ensure(LeftTrack && RightTrack)) { return;}
 	LeftTrack->SetThrottle(Throw);
 	RightTrack->SetThrottle(-Throw);
 	//TODO clamp on throttle so player cant use multi inputs to go faster
