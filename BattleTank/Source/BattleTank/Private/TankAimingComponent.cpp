@@ -17,10 +17,9 @@ void UTankAimingComponent::Initialise(UTankBarrel* BarrelToSet, UTurret* TurretT
 	Barrel = BarrelToSet;
 	Turret = TurretToSet;
 }
-void UTankAimingComponent::AimAt(FVector HitLocation, float LaunchSpeed)
+void UTankAimingComponent::AimAt(FVector HitLocation)
 {
-	if (ensure(!Barrel)) {  return;}
-	if (ensure(!Turret)) {  return;}
+	if (!ensure(Barrel && Turret)) { return; }
 	FVector OutLaunchVelocity;
 	FVector StartLocation = Barrel->GetSocketLocation(FName("Projectile"));
 	bool bHaveAimSolution = UGameplayStatics::SuggestProjectileVelocity(
@@ -40,9 +39,9 @@ void UTankAimingComponent::AimAt(FVector HitLocation, float LaunchSpeed)
 	}
 	else
 	{
-		auto Name = GetOwner()->GetName();
-		auto Time = GetWorld()->GetTimeSeconds();
-		//UE_LOG(LogTemp, Warning, TEXT("%f %s : I Have No Aim Direction"), Time, Name);
+		//auto Name = GetOwner()->GetName();
+		//auto Time = GetWorld()->GetTimeSeconds();
+		//UE_LOG(LogTemp, Warning, TEXT("%s I Have No Aim Direction"),Name);
 	}
 }
 void UTankAimingComponent::MoveBarrelTowards(FVector AimDirection)
@@ -54,6 +53,6 @@ void UTankAimingComponent::MoveBarrelTowards(FVector AimDirection)
 	auto AimAsRotator = AimDirection.Rotation();
 	auto DeltaRotatorBarrel = AimAsRotator - BarrelRotator;
 	auto DeltaRotatorTurret = AimAsRotator - TurretRotator;
-	Barrel->Elevate(DeltaRotatorBarrel.Pitch * AimSpeedMultiplier); //TODO Remove magic Number
-	Turret->Azimuth(DeltaRotatorTurret.Yaw * AimSpeedMultiplier);
+	Barrel->Elevate(DeltaRotatorBarrel.Pitch);
+	Turret->Azimuth(DeltaRotatorTurret.Yaw);
 }

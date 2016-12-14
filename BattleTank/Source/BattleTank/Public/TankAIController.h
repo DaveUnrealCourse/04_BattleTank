@@ -4,13 +4,15 @@
 #include "AIController.h"
 #include "TankAIController.generated.h"
 
-class ATank;// forward declaration
+// forward declaration
+class TankAimingComponent;
 
 UCLASS()
 class BATTLETANK_API ATankAIController : public AAIController
 {
 	GENERATED_BODY()
 public:
+	void BeginPlay();
 
 private:
 //	virtual void BeginPlay() override;

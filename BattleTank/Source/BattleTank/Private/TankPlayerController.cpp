@@ -1,26 +1,15 @@
 // Copyright David Thornton 2016
 #include "BattleTank.h"
 #include "TankAimingComponent.h"
-#include "Tank.h"
 #include "TankPlayerController.h"
 
 
 void ATankPlayerController::BeginPlay()
 {
 	Super::BeginPlay();
-	auto AimingComponent = GetControlledTank()->FindComponentByClass<UTankAimingComponent>();
-	if (ensure(AimingComponent))
-	{
-		FoundAimingComponent(AimingComponent);
-	}
-	else
-	{
-		UE_LOG(LogTemp, Warning, TEXT("PlayerController Has No Aiming Component ! !"))
-			return;
-	}
-
-
-	auto ControlledTank = GetControlledTank();
+	auto AimingComponent = GetPawn()->FindComponentByClass<UTankAimingComponent>();
+	if (!ensure(AimingComponent)) { return; }
+	FoundAimingComponent(AimingComponent);
 //	if (!ensure(!ControlledTank)) { UE_LOG(LogTemp, Warning, TEXT("PlayerController Has No Tank!")); return; } causing unreal  to crash
 }
 void ATankPlayerController::Tick(float DeltaTime)
@@ -28,18 +17,16 @@ void ATankPlayerController::Tick(float DeltaTime)
 	Super::Tick(DeltaTime);
 	AimTowardsCrosshair();
 }
-ATank* ATankPlayerController::GetControlledTank() const
-{
-	return Cast<ATank>(GetPawn());
-}
+
 void ATankPlayerController::AimTowardsCrosshair()
 {
-	if (ensure(GetControlledTank())) {  return; }
-
+	if (!ensure(GetPawn())) { return; }
+	auto AimingComponent = GetPawn()->FindComponentByClass<UTankAimingComponent>();
+	if (!ensure(AimingComponent)) { return; }
 	FVector HitLocation;//OUT Parameter
 	if (GetSightRayHitLocation(HitLocation))// has side efect will ray trace
 	{
-		GetControlledTank()->AimAt(HitLocation);
+		AimingComponent->AimAt(HitLocation);
 	}
 }
 //Get world location of linetrace through crosshair true if it hits landscape

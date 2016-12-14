@@ -25,21 +25,20 @@ public:
 	// Sets default values for this component's properties
 	UFUNCTION(BlueprintCallable, Category = "Setup")
 	void Initialise(UTankBarrel* BarrelToSet, UTurret* TurretToSet);
-//	void SetBarrelReference(UTankBarrel* BarrelToSet);//delete by video 165 if still working 
-//	void SetTurretReference(UTurret* TurretToSet);//delete by video 165 if still working 
-	void AimAt(FVector HitLocation, float LaunchSpeed);
-		// TODO add set Turret referance
+
+	void AimAt(FVector HitLocation);
+
 protected:
 	UPROPERTY(BlueprintReadOnly, Category = "State")
 	EFiringState FiringState = EFiringState::Locked;
 private:
 	UTankAimingComponent();
+
 	UTankBarrel* Barrel = nullptr;
 	UTurret* Turret = nullptr;
+
+	UPROPERTY(EditAnywhere, Category = "Firing")
+	float LaunchSpeed = 40000; //TODO find out if this number is even close
+
 	void MoveBarrelTowards(FVector AimDirection);
-
-	//increase the speed at witch you can move barrel and turret( use decimal to slow)
-	UPROPERTY(EditAnywhere, Category = "Setup")
-	float AimSpeedMultiplier = 1;
-
 };
