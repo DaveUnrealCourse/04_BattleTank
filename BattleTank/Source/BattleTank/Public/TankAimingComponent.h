@@ -12,6 +12,7 @@ enum class EFiringState : uint8
 	Locked
 };
 // forward declaration
+class AProjectile;
 class UTankBarrel;
 class UTurret;
 
@@ -25,6 +26,8 @@ public:
 	// Sets default values for this component's properties
 	UFUNCTION(BlueprintCallable, Category = "Setup")
 	void Initialise(UTankBarrel* BarrelToSet, UTurret* TurretToSet);
+	UFUNCTION(BlueprintCallable, Category = "Setup")
+	void Fire();
 
 	void AimAt(FVector HitLocation);
 
@@ -37,8 +40,13 @@ private:
 	UTankBarrel* Barrel = nullptr;
 	UTurret* Turret = nullptr;
 
+	UPROPERTY(EditDefaultsOnly, Category = "Firing")
+	TSubclassOf<AProjectile> ProjectileBluePrint;
 	UPROPERTY(EditAnywhere, Category = "Firing")
-	float LaunchSpeed = 40000; //TODO find out if this number is even close
+	float LaunchSpeed = 600000; //TODO find out if this number is even close
+	UPROPERTY(EditAnywhere, Category = "Firing")
+	float ReloadTimeInSeconds = 3;
 
 	void MoveBarrelTowards(FVector AimDirection);
+	double LastFireTime = 0;
 };
