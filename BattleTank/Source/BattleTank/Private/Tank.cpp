@@ -10,8 +10,8 @@ ATank::ATank()
 	PrimaryActorTick.bCanEverTick = false;
 }
 
-void ATank::BeginPlay()
-{
-	Super::BeginPlay();// needed for the BP to run its begin play 
-}
+//void ATank::BeginPlay()
+//{
+//	Super::BeginPlay();// needed for the BP to run its begin play 
+//}
 
