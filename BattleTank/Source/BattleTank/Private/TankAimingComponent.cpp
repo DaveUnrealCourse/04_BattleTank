@@ -13,6 +13,21 @@ UTankAimingComponent::UTankAimingComponent()
 	PrimaryComponentTick.bCanEverTick = true;//TODO should this really tick
 }
 
+void UTankAimingComponent::BeginPlay()
+{
+Super::BeginPlay();// needed for the BP to run its begin play 
+LastFireTime = FPlatformTime::Seconds();//so first fire is after the start
+}
+
+void UTankAimingComponent::TickComponent(float DeltaTime, enum ELevelTick TickType, FActorComponentTickFunction *ThisTickFunction)
+{
+	if ((FPlatformTime::Seconds() - LastFireTime) > ReloadTimeInSeconds)
+	{
+		FiringState = EFiringState::Reloading;
+	}
+	//TODO handle Aiming and Locked States in the enum
+}
+
 void UTankAimingComponent::Initialise(UTankBarrel* BarrelToSet, UTurret* TurretToSet)
 {
 	Barrel = BarrelToSet;
@@ -59,10 +74,10 @@ void UTankAimingComponent::MoveBarrelTowards(FVector AimDirection)
 }
 void UTankAimingComponent::Fire()
 {
-	if (!ensure(Barrel && ProjectileBluePrint)) { return; }
-	bool IsReloaded = (FPlatformTime::Seconds() - LastFireTime) > ReloadTimeInSeconds;
-	if (IsReloaded)
+	if (FiringState != EFiringState::Reloading)
 	{
+		if (!ensure(Barrel)) { return; }
+		if (!ensure(ProjectileBluePrint)) { return; }
 		//spawn a PROJECTILE
 		auto Projectile = GetWorld()->SpawnActor<AProjectile>(
 			ProjectileBluePrint,
