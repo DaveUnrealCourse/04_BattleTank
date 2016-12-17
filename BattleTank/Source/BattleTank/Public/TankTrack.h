@@ -20,5 +20,8 @@ void SetThrottle(float Throttle);
 		float TrackMaxDrivingFource = 40000000;//Assume 40 ton tank and 1 g of exceleration
 private:
 	UTankTrack();
+	void BeginPlay();
+	UFUNCTION()
+	void OnHit(UPrimitiveComponent* HitComponent, AActor* OtherActor, UPrimitiveComponent* OtherComponent, FVector NormalImpulse, const FHitResult& Hit);
 	virtual void TickComponent(float DeltaTime, enum ELevelTick TickType, FActorComponentTickFunction *ThisTickFunction)override;
 };
