@@ -5,7 +5,7 @@
 
 UTankTrack::UTankTrack()
 {
-	PrimaryComponentTick.bCanEverTick = true;//TODO should this really tick
+	PrimaryComponentTick.bCanEverTick = false;//TODO should this really tick
 }
 void UTankTrack::BeginPlay()
 {
@@ -14,11 +14,14 @@ void UTankTrack::BeginPlay()
 
 void UTankTrack::OnHit(UPrimitiveComponent* HitComponent, AActor* OtherActor, UPrimitiveComponent* OtherComponent, FVector NormalImpulse, const FHitResult& Hit)
 {
-	UE_LOG(LogTemp, Warning, TEXT("Track HIT!"));
+	//drive the track
+	//Apply the sideways force
+	ApplySidewaysForce();
 }
-
-void UTankTrack::TickComponent(float DeltaTime, enum ELevelTick TickType, FActorComponentTickFunction *ThisTickFunction)
+//void UTankTrack::TickComponent(float DeltaTime, enum ELevelTick TickType, FActorComponentTickFunction *ThisTickFunction){}
+void UTankTrack::ApplySidewaysForce()
 {
+	auto DeltaTime = GetWorld()->GetDeltaSeconds();
 	//calc slipage speed
 	auto SlippageSpeed = FVector::DotProduct(GetRightVector(), GetComponentVelocity());
 	//Work-out the required acceleration this frame to correct
@@ -27,9 +30,7 @@ void UTankTrack::TickComponent(float DeltaTime, enum ELevelTick TickType, FActor
 	auto TankRoot = Cast<UStaticMeshComponent>(GetOwner()->GetRootComponent());
 	auto CorrectionForce = (TankRoot->GetMass() *CorrectionAcceleration) / 2; // because there is 2 tracks
 	TankRoot->AddForce(CorrectionForce);
-}//UE_LOG(LogTemp, Warning, TEXT("%s Track"), *SlippageSpeed);
-
-
+}
 
 void UTankTrack::SetThrottle(float Throttle)
 {
