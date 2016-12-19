@@ -104,7 +104,6 @@ void UTankAimingComponent::Fire()
 		
 		if (!ensure(Barrel)) { return; }
 		if (!ensure(ProjectileBluePrint)) { return; }
-		//Ammo = Ammo - 1;
 		//spawn a PROJECTILE
 		auto Projectile = GetWorld()->SpawnActor<AProjectile>(
 			ProjectileBluePrint,
