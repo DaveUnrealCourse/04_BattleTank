@@ -9,7 +9,8 @@ enum class EFiringState : uint8
 {
 	Reloading,
 	Aiming,
-	Locked
+	Locked,
+	AmmoOut
 };
 // forward declaration
 class AProjectile;
@@ -28,6 +29,10 @@ public:
 	void Initialise(UTankBarrel* BarrelToSet, UTurret* TurretToSet);
 	UFUNCTION(BlueprintCallable, Category = "Setup")
 	void Fire();
+	UFUNCTION(BlueprintCallable, Category = "Setup")
+	int32 GetAmmoCount() const;
+	UPROPERTY(EditAnywhere, Category = "Setup")// consider EditDefaultsOnly
+	int32 Ammo = 8;// how much Ammo you start with
 
 	void AimAt(FVector HitLocation);
 
@@ -36,6 +41,8 @@ public:
 protected:
 	UPROPERTY(BlueprintReadOnly, Category = "State")
 	EFiringState FiringState = EFiringState::Reloading;
+	
+
 private:
 	UTankAimingComponent();
 	
@@ -50,9 +57,10 @@ private:
 	float LaunchSpeed = 60000000; //TODO find out if this number is even close
 	UPROPERTY(EditAnywhere, Category = "Firing")
 	float ReloadTimeInSeconds = 3;
-	FVector AimDirection;
+	FVector CurrentAimDirection;
 	void MoveBarrelTowards(FVector AimDirection);
 	
 	
 	double LastFireTime = 0;
+	int RoundsLeft = 3;
 };

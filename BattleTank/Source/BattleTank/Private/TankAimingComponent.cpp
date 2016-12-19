@@ -26,11 +26,15 @@ bool UTankAimingComponent::IsBarrelMoving()
 {
 	if (!ensure(Barrel)) { return false; }
 	auto BarrelForward = Barrel->GetForwardVector();
-	return !BarrelForward.Equals(AimDirection, 0.01);
+	return !BarrelForward.Equals(CurrentAimDirection, 0.01);
 }
 void UTankAimingComponent::TickComponent(float DeltaTime, enum ELevelTick TickType, FActorComponentTickFunction *ThisTickFunction)
 {
-	if ((FPlatformTime::Seconds() - LastFireTime) < ReloadTimeInSeconds)
+	if(Ammo < 1)
+	{
+		FiringState = EFiringState::AmmoOut;
+	}
+	else if ((FPlatformTime::Seconds() - LastFireTime) < ReloadTimeInSeconds)
 	{
 		FiringState = EFiringState::Reloading;
 	}
@@ -38,6 +42,7 @@ void UTankAimingComponent::TickComponent(float DeltaTime, enum ELevelTick TickTy
 	{
 		FiringState = EFiringState::Aiming;
 	}
+
 	else
 	{
 		FiringState = EFiringState::Locked;
@@ -45,8 +50,10 @@ void UTankAimingComponent::TickComponent(float DeltaTime, enum ELevelTick TickTy
 }
 EFiringState UTankAimingComponent::GetFiringState() const
 {
-	return FiringState();
+	return FiringState;
 }
+int32 UTankAimingComponent::GetAmmoCount() const {return Ammo;}
+
 void UTankAimingComponent::AimAt(FVector HitLocation)
 {
 	if (!ensure(Barrel && Turret)) { return; }
@@ -64,8 +71,8 @@ void UTankAimingComponent::AimAt(FVector HitLocation)
 		ESuggestProjVelocityTraceOption::DoNotTrace);
 	if (bHaveAimSolution)
 	{
-		AimDirection = OutLaunchVelocity.GetSafeNormal();
-		//CurrentAimDirection = AimDirection;
+		auto AimDirection = OutLaunchVelocity.GetSafeNormal();
+		CurrentAimDirection = AimDirection;
 		MoveBarrelTowards(AimDirection);
 	}
 	else
@@ -92,10 +99,12 @@ void UTankAimingComponent::MoveBarrelTowards(FVector AimDirection)
 }
 void UTankAimingComponent::Fire()
 {
-	if (FiringState != EFiringState::Reloading)
+	if (FiringState == EFiringState::Locked || FiringState == EFiringState::Aiming)
 	{
+		
 		if (!ensure(Barrel)) { return; }
 		if (!ensure(ProjectileBluePrint)) { return; }
+		//Ammo = Ammo - 1;
 		//spawn a PROJECTILE
 		auto Projectile = GetWorld()->SpawnActor<AProjectile>(
 			ProjectileBluePrint,
@@ -104,5 +113,8 @@ void UTankAimingComponent::Fire()
 			);
 		Projectile->LaunchProjectile(LaunchSpeed);
 		LastFireTime = FPlatformTime::Seconds();
+		Ammo--;
 	}
 }
+
+
