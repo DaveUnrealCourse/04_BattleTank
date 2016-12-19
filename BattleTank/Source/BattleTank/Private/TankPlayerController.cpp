@@ -24,7 +24,8 @@ void ATankPlayerController::AimTowardsCrosshair()
 	auto AimingComponent = GetPawn()->FindComponentByClass<UTankAimingComponent>();
 	if (!ensure(AimingComponent)) { return; }
 	FVector HitLocation;//OUT Parameter
-	if (GetSightRayHitLocation(HitLocation))// has side efect will ray trace
+	bool bGotHitLocation = GetSightRayHitLocation(HitLocation);
+	if (bGotHitLocation)// has side efect will ray trace
 	{
 		AimingComponent->AimAt(HitLocation);
 	}
@@ -41,11 +42,11 @@ bool ATankPlayerController::GetSightRayHitLocation(FVector& HitLocation) const
 	if (GetLookDirection(ScreenLocation, LookDirection))
 	{
 // line trace along look direction and see what we hit up to a max range
-		GetLookVectorHitLocation(LookDirection, HitLocation);
+		return GetLookVectorHitLocation(LookDirection, HitLocation);
 //UE_LOG(LogTemp, Warning, TEXT("Hit Location : %s"), (*HitLocation.ToString()));
 	}
 
-	return true;
+	return false;
 }
 bool ATankPlayerController::GetLookVectorHitLocation(FVector LookDirection, FVector& HitLocation) const
 {

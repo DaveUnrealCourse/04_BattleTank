@@ -45,12 +45,12 @@ private:
 	UPROPERTY(EditDefaultsOnly, Category = "Firing")
 	TSubclassOf<AProjectile> ProjectileBluePrint;
 	UPROPERTY(EditAnywhere, Category = "Firing")
-	float LaunchSpeed = 600000; //TODO find out if this number is even close
+	float LaunchSpeed = 60000000; //TODO find out if this number is even close
 	UPROPERTY(EditAnywhere, Category = "Firing")
 	float ReloadTimeInSeconds = 3;
-
+	FVector AimDirection;
 	void MoveBarrelTowards(FVector AimDirection);
 	
-	FVector AimDirection;
+	
 	double LastFireTime = 0;
 };

@@ -17,6 +17,8 @@ void UTankTrack::OnHit(UPrimitiveComponent* HitComponent, AActor* OtherActor, UP
 	//drive the track
 	//Apply the sideways force
 	ApplySidewaysForce();
+	DriveTrack();
+	CurrentThrottle = 0;
 }
 //void UTankTrack::TickComponent(float DeltaTime, enum ELevelTick TickType, FActorComponentTickFunction *ThisTickFunction){}
 void UTankTrack::ApplySidewaysForce()
@@ -34,15 +36,18 @@ void UTankTrack::ApplySidewaysForce()
 
 void UTankTrack::SetThrottle(float Throttle)
 {
-	//auto Time = GetWorld()->GetTimeSeconds();
-	//auto Name = GetName();
-	//UE_LOG(LogTemp, Warning, TEXT("%s Throttle is at %f"), *Name, Throttle);
-
+	CurrentThrottle = FMath::Clamp<float>(CurrentThrottle + Throttle, -1, 1);
+}
+void UTankTrack::DriveTrack()
+{
 	//TODO clamp Throttle so player cant change Speeds in the input menu
-	auto ForceApplied = GetForwardVector() * Throttle *TrackMaxDrivingFource;
+	auto ForceApplied = GetForwardVector() * CurrentThrottle *TrackMaxDrivingFource;
 	auto ForceLocation = GetComponentLocation();
 	auto TankRoot = Cast<UPrimitiveComponent>(GetOwner()->GetRootComponent());
 	TankRoot->AddForceAtLocation(ForceApplied, ForceLocation);
 }
+//auto Time = GetWorld()->GetTimeSeconds();
+	//auto Name = GetName();
+	//UE_LOG(LogTemp, Warning, TEXT("%s Throttle is at %f"), *Name, Throttle);
 
 
