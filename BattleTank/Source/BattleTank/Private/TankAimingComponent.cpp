@@ -43,6 +43,10 @@ void UTankAimingComponent::TickComponent(float DeltaTime, enum ELevelTick TickTy
 		FiringState = EFiringState::Locked;
 	}
 }
+EFiringState UTankAimingComponent::GetFiringState() const
+{
+	return FiringState();
+}
 void UTankAimingComponent::AimAt(FVector HitLocation)
 {
 	if (!ensure(Barrel && Turret)) { return; }
@@ -71,6 +75,7 @@ void UTankAimingComponent::AimAt(FVector HitLocation)
 		//UE_LOG(LogTemp, Warning, TEXT("%s I Have No Aim Direction"),Name);
 	}
 }
+
 void UTankAimingComponent::MoveBarrelTowards(FVector AimDirection)
 {
 	if (!ensure(Barrel && Turret)) { return; }
